@@ -4,6 +4,6 @@
     "builder": "NIXPACKS"
   },
   "deploy": {
-    "startCommand": "python jimeng-dify-service/app.py"
+    "startCommand": "PORT=10001 python jimeng-dify-service/app.py"
   }
 }
