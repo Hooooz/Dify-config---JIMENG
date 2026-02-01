@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  jimeng-dify-service:
+    build: .
+    container_name: jimeng-service
+    ports:
+      - "8080:8080"
+    environment:
+      - JIMENG_API_TOKEN=${JIMENG_API_TOKEN}
+      - PUBLIC_BASE_URL=${PUBLIC_BASE_URL}
+      - ALLOW_ORIGINS=*
+      - PORT=8080
+    restart: always
