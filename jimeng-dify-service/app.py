@@ -80,6 +80,7 @@ class GenerateRequest(BaseModel):
     sample_strength: float = Field(0.5, ge=0.0, le=1.0)
     negative_prompt: str = ""
     model: str = "jimeng-2.1"
+    return_type: str = "base64"
 
 
 class GenerateResponse(BaseModel):
@@ -130,6 +131,7 @@ def generate(req: GenerateRequest):
             refresh_token=token,
         )
     except Exception as e:
+        logger.error(f"Error generating images: {type(e).__name__}: {e}", exc_info=True)
         raise HTTPException(status_code=502, detail=f"{type(e).__name__}: {e}")
 
     if not urls:
