@@ -1,0 +1,88 @@
+openapi: 3.1.0
+info:
+  title: Jimeng Dify Service
+  version: 1.0.0
+servers:
+  - url: https://YOUR_DOMAIN
+paths:
+  /health:
+    get:
+      operationId: health
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+  /generate:
+    post:
+      operationId: generate
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [prompt]
+              properties:
+                prompt:
+                  type: string
+                width:
+                  type: integer
+                  default: 1024
+                height:
+                  type: integer
+                  default: 1024
+                sample_strength:
+                  type: number
+                  default: 0.5
+                negative_prompt:
+                  type: string
+                  default: ""
+                model:
+                  type: string
+                  default: jimeng-2.1
+                return_type:
+                  type: string
+                  enum: [url, proxy, base64]
+                  default: url
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  image_url:
+                    type: string
+                    nullable: true
+                  image_base64:
+                    type: string
+                    nullable: true
+                  message:
+                    type: string
+        "4XX":
+          description: Client Error
+        "5XX":
+          description: Server Error
+  /image:
+    get:
+      operationId: image
+      parameters:
+        - name: url
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            image/*:
+              schema:
+                type: string
+                format: binary
