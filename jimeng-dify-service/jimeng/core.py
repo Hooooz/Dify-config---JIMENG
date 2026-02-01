@@ -109,7 +109,14 @@ def request(
     try:
         content = decompress_response(response)
         result = json.loads(content)
-    except Exception:
+    except Exception as e:
+        print(f"Error parsing response: {e}")
+        print(f"Status Code: {response.status_code}")
+        print(f"Headers: {response.headers}")
+        try:
+            print(f"Raw Content (first 1000 chars): {response.content[:1000]}")
+        except:
+            pass
         raise API_REQUEST_FAILED("响应格式错误")
 
     ret = result.get("ret")
